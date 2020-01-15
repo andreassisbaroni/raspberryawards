@@ -1,7 +1,7 @@
-package br.com.andrebaroni.raspberryawards.infra.importation.raspberryawards.cache;
+package br.com.andrebaroni.raspberryawards.infra.importation.cache;
 
-import br.com.andrebaroni.raspberryawards.domain.entity.Studio;
-import br.com.andrebaroni.raspberryawards.domain.service.StudioService;
+import br.com.andrebaroni.raspberryawards.domain.entity.Producer;
+import br.com.andrebaroni.raspberryawards.domain.service.ProducerService;
 import br.com.andrebaroni.raspberryawards.infra.importation.EntityCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -11,19 +11,19 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
-public class StudioCache extends EntityCache<Studio> {
+public class ProducerCache extends EntityCache<Producer> {
 
-    private final StudioService studioService;
+    private final ProducerService producerService;
 
     @Autowired
-    public StudioCache(StudioService studioService) {
+    public ProducerCache(ProducerService producerService) {
         super();
-        this.studioService = studioService;
+        this.producerService = producerService;
     }
 
     @Override
-    public Studio findCache(Example<Studio> producerExample) {
-        Optional<Studio> cachedProducer = super.getObjects()
+    public Producer findCache(Example<Producer> producerExample) {
+        Optional<Producer> cachedProducer = super.getObjects()
                 .stream()
                 .filter(producer -> producer.getName().equals(producerExample.getProbe().getName()))
                 .findFirst();
@@ -31,8 +31,8 @@ public class StudioCache extends EntityCache<Studio> {
         if (cachedProducer.isPresent()) {
             return cachedProducer.get();
         } else {
-            Studio persistedProducer = this.studioService.findFirstByName(producerExample.getProbe().getName())
-                    .orElse(this.studioService.create(producerExample.getProbe()));
+            Producer persistedProducer = this.producerService.findFirstByName(producerExample.getProbe().getName())
+                    .orElse(this.producerService.create(producerExample.getProbe()));
 
             if (Objects.nonNull(persistedProducer)) {
                 super.addObject(persistedProducer);

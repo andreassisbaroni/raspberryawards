@@ -5,8 +5,9 @@ import br.com.andrebaroni.raspberryawards.domain.entity.Producer;
 import br.com.andrebaroni.raspberryawards.domain.entity.Studio;
 import br.com.andrebaroni.raspberryawards.domain.service.MovieService;
 import br.com.andrebaroni.raspberryawards.infra.importation.CsvReader;
-import br.com.andrebaroni.raspberryawards.infra.importation.raspberryawards.cache.ProducerCache;
-import br.com.andrebaroni.raspberryawards.infra.importation.raspberryawards.cache.StudioCache;
+import br.com.andrebaroni.raspberryawards.infra.importation.cache.ProducerCache;
+import br.com.andrebaroni.raspberryawards.infra.importation.cache.StudioCache;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -19,6 +20,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class RaspberryAwardsDataReader extends CsvReader<Movie> {
+
+    private static final int YEAR_COLUMN = 0;
+    private static final int TITLE_COLUMN = 1;
+    private static final int STUDIOS_COLUMN = 2;
+    private static final int PRODUCERS_COLUMN = 3;
+    private static final int WINNER_COLUMN = 4;
 
     private final MovieService movieService;
     private final StudioCache studioCache;
@@ -67,6 +74,11 @@ public class RaspberryAwardsDataReader extends CsvReader<Movie> {
     @Override
     protected void processItem(Movie movie) {
         this.movieService.create(movie);
+    }
+
+    @Override
+    protected Boolean recordIsValid(String[] lineItem) {
+        return StringUtils.isNumeric(lineItem[YEAR_COLUMN]);
     }
 
     private Collection<Studio> convertStudios(String studios) {
