@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create-table-producer" author="andre.baroni">
+        <createTable tableName="producer">
+            <column name="id" type="uuid">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_producer"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-studio" author="andre.baroni">
+        <createTable tableName="studio">
+            <column name="id" type="uuid">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_studio"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-movie" author="andre.baroni">
+        <createTable tableName="movie">
+            <column name="id" type="uuid">
+                <constraints nullable="false"
+                             primaryKey="false"
+                             primaryKeyName="pk_movie"/>
+            </column>
+            <column name="year" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="winner" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-movie-producer" author="andre.baroni">
+        <createTable tableName="movie_producer">
+            <column name="fk_movie" type="uuid">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_movie_producer"
+                             foreignKeyName="fk_movie_producer_movie"
+                             referencedTableName="movie"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="fk_producer" type="uuid">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_movie_producer"
+                             foreignKeyName="fk_movie_producer_producer"
+                             referencedTableName="producer"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-movie-studio" author="andre.baroni">
+        <createTable tableName="movie_studio">
+            <column name="fk_movie" type="uuid">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_movie_studio"
+                             foreignKeyName="fk_movie_studio_movie"
+                             referencedTableName="movie"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="fk_studio" type="uuid">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_movie_studio"
+                             foreignKeyName="fk_movie_studio_studio"
+                             referencedTableName="studio"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
