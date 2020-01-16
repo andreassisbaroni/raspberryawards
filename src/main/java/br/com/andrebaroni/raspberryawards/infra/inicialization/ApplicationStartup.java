@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 
 @Component
 public class ApplicationStartup implements ApplicationListener<ApplicationReadyEvent> {
@@ -23,6 +24,10 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     @Override
     @Transactional
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        this.csvReader.readCsv();
+        try {
+            this.csvReader.readCsv();
+        } catch (IOException e) {
+            throw new LoadMovieDataException();
+        }
     }
 }

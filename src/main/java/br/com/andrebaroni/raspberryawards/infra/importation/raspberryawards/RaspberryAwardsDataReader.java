@@ -31,6 +31,7 @@ public class RaspberryAwardsDataReader extends CsvReader<Movie> {
     private final StudioCache studioCache;
     private final ProducerCache producerCache;
     private final String filePath;
+    private final String separator;
 
     @Autowired
     public RaspberryAwardsDataReader(MovieService movieService,
@@ -42,6 +43,7 @@ public class RaspberryAwardsDataReader extends CsvReader<Movie> {
         this.producerCache = producerCache;
         this.studioCache = studioCache;
         this.filePath = environment.getProperty("raspberry-awards.data.filepath");
+        this.separator = environment.getProperty("raspberry-awards.data.separator");
     }
 
     @Override
@@ -51,7 +53,7 @@ public class RaspberryAwardsDataReader extends CsvReader<Movie> {
 
     @Override
     protected char getSeparator() {
-        return ';';
+        return this.separator.charAt(0);
     }
 
     @Override
@@ -82,14 +84,14 @@ public class RaspberryAwardsDataReader extends CsvReader<Movie> {
     }
 
     private Collection<Studio> convertStudios(String studios) {
-        return Arrays.stream(studios.split(","))
-                .map(Studio::new)
+        return Arrays.stream(studios.split(", | and "))
+                .map(studio -> new Studio(studio.trim()))
                 .collect(Collectors.toList());
     }
 
     private Collection<Producer> convertProducers(String producers) {
-        return Arrays.stream(producers.split(","))
-                .map(Producer::new)
+        return Arrays.stream(producers.split(", | and "))
+                .map(producer -> new Producer(producer.trim()))
                 .collect(Collectors.toList());
     }
 }

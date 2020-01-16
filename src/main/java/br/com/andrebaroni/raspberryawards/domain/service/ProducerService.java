@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -27,5 +28,9 @@ public class ProducerService implements Serializable {
 
     public Optional<Producer> findFirstByName(String name) {
         return this.producerRepository.findFirstByName(name);
+    }
+
+    public Collection<Producer> findAllByMoviesWinner() {
+        return this.producerRepository.findAllByMoviesWinner();
     }
 }
