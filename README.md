@@ -1,4 +1,5 @@
 # Golden Raspberry Awards
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3e7bc24d32d94097a20ae267c5b4310b)](https://app.codacy.com/manual/andreassisbaroni/raspberryawards?utm_source=github.com&utm_medium=referral&utm_content=andreassisbaroni/raspberryawards&utm_campaign=Badge_Grade_Dashboard)
 [![BCH compliance](https://bettercodehub.com/edge/badge/andreassisbaroni/raspberryawards?branch=master)](https://bettercodehub.com/)
 
 ### Requisitos
