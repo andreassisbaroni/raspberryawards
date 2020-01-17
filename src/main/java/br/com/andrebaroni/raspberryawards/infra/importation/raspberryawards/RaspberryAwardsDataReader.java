@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -62,10 +61,10 @@ public class RaspberryAwardsDataReader extends CsvReader<Movie> {
         Movie movie = new Movie(stringMovie[TITLE_COLUMN], Long.parseLong(stringMovie[YEAR_COLUMN]));
 
         this.convertProducers(stringMovie[PRODUCERS_COLUMN])
-                .forEach(producer -> movie.addProducer(this.producerCache.findCache(Example.of(producer))));
+                .forEach(producer -> movie.addProducer(this.producerCache.findOne(producer)));
 
         this.convertStudios(stringMovie[STUDIOS_COLUMN])
-                .forEach(studio -> movie.addStudio(this.studioCache.findCache(Example.of(studio))));
+                .forEach(studio -> movie.addStudio(this.studioCache.findOne(studio)));
 
         if (Strings.isNotBlank(stringMovie[WINNER_COLUMN])) {
             movie.setWinner(Boolean.TRUE);

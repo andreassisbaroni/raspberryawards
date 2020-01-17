@@ -4,10 +4,8 @@ import br.com.andrebaroni.raspberryawards.domain.entity.Studio;
 import br.com.andrebaroni.raspberryawards.domain.service.StudioService;
 import br.com.andrebaroni.raspberryawards.infra.importation.EntityCache;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -18,27 +16,22 @@ public class StudioCache extends EntityCache<Studio> {
     @Autowired
     public StudioCache(StudioService studioService) {
         super();
+        super.setShoudSaveIfNotFound(Boolean.TRUE);
         this.studioService = studioService;
     }
 
     @Override
-    public Studio findCache(Example<Studio> producerExample) {
-        Optional<Studio> cachedProducer = super.getObjects()
-                .stream()
-                .filter(producer -> producer.getName().equals(producerExample.getProbe().getName()))
-                .findFirst();
+    public Boolean isEquals(Studio cache, Studio filter) {
+        return cache.getName().equals(filter.getName());
+    }
 
-        if (cachedProducer.isPresent()) {
-            return cachedProducer.get();
-        } else {
-            Studio persistedProducer = this.studioService.findFirstByName(producerExample.getProbe().getName())
-                    .orElse(this.studioService.create(producerExample.getProbe()));
+    @Override
+    protected Optional<Studio> findOneWithoutCache(Studio filter) {
+        return this.studioService.findFirstByName(filter.getName());
+    }
 
-            if (Objects.nonNull(persistedProducer)) {
-                super.addObject(persistedProducer);
-            }
-
-            return persistedProducer;
-        }
+    @Override
+    protected Studio save(Studio object) {
+        return this.studioService.create(object);
     }
 }
