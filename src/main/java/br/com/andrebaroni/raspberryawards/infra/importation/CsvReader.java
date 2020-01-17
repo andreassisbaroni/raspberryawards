@@ -10,11 +10,12 @@ import java.io.Serializable;
 public abstract class CsvReader<T> implements Serializable {
 
     public void readCsv() throws IOException {
-        CSVReader reader = new CSVReader(new FileReader(new ClassPathResource(this.getFilePath()).getFile()), this.getSeparator());
-        String[] line;
-        while ((line = reader.readNext()) != null) {
-            if (this.recordIsValid(line).equals(Boolean.TRUE)) {
-                processItem(this.convertObject(line));
+        try (CSVReader reader = new CSVReader(new FileReader(new ClassPathResource(this.getFilePath()).getFile()), this.getSeparator())) {
+            String[] line;
+            while ((line = reader.readNext()) != null) {
+                if (this.recordIsValid(line).equals(Boolean.TRUE)) {
+                    processItem(this.convertObject(line));
+                }
             }
         }
     }

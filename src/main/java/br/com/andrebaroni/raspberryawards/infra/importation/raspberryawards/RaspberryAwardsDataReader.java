@@ -5,6 +5,7 @@ import br.com.andrebaroni.raspberryawards.domain.entity.Producer;
 import br.com.andrebaroni.raspberryawards.domain.entity.Studio;
 import br.com.andrebaroni.raspberryawards.domain.service.MovieService;
 import br.com.andrebaroni.raspberryawards.infra.importation.CsvReader;
+import br.com.andrebaroni.raspberryawards.infra.importation.EntityCache;
 import br.com.andrebaroni.raspberryawards.infra.importation.cache.ProducerCache;
 import br.com.andrebaroni.raspberryawards.infra.importation.cache.StudioCache;
 import org.apache.commons.lang3.StringUtils;
@@ -28,8 +29,8 @@ public class RaspberryAwardsDataReader extends CsvReader<Movie> {
     private static final int WINNER_COLUMN = 4;
 
     private final MovieService movieService;
-    private final StudioCache studioCache;
-    private final ProducerCache producerCache;
+    private final EntityCache<Studio> studioCache;
+    private final EntityCache<Producer> producerCache;
     private final String filePath;
     private final String separator;
 

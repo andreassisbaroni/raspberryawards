@@ -1,5 +1,6 @@
-package br.com.andrebaroni.raspberryawards.application;
+package br.com.andrebaroni.raspberryawards.application.controller;
 
+import br.com.andrebaroni.raspberryawards.application.query.AwardQuery;
 import br.com.andrebaroni.raspberryawards.domain.service.AwardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

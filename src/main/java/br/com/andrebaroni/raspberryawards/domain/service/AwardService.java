@@ -1,7 +1,7 @@
 package br.com.andrebaroni.raspberryawards.domain.service;
 
-import br.com.andrebaroni.raspberryawards.application.AwardQuery;
-import br.com.andrebaroni.raspberryawards.application.AwardWinnerQuery;
+import br.com.andrebaroni.raspberryawards.application.query.AwardQuery;
+import br.com.andrebaroni.raspberryawards.application.query.AwardWinnerQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

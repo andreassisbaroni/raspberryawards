@@ -1,4 +1,4 @@
-package br.com.andrebaroni.raspberryawards.application;
+package br.com.andrebaroni.raspberryawards.application.query;
 
 import br.com.andrebaroni.raspberryawards.domain.entity.Movie;
 import br.com.andrebaroni.raspberryawards.domain.entity.Producer;

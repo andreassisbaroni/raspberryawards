@@ -1,4 +1,4 @@
-package br.com.andrebaroni.raspberryawards.application;
+package br.com.andrebaroni.raspberryawards.application.query;
 
 import java.io.Serializable;
 import java.util.Collection;
