@@ -8,7 +8,7 @@ import java.util.Collection;
 public class Producer extends Person {
 
     @ManyToMany(mappedBy = "producers")
-    Collection<Movie> movies;
+    private Collection<Movie> movies;
 
     private Producer() {
         super();
