@@ -27,6 +27,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
         try {
             this.csvReader.readCsv();
         } catch (IOException e) {
+            e.printStackTrace();
             throw new LoadMovieDataException();
         }
     }

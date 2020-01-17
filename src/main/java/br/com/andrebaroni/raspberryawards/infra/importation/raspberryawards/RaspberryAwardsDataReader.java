@@ -12,8 +12,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -30,6 +33,7 @@ public class RaspberryAwardsDataReader extends CsvReader<Movie> {
     private final MovieService movieService;
     private final EntityCache<Studio> studioCache;
     private final EntityCache<Producer> producerCache;
+    private final ResourceLoader resourceLoader;
     private final String filePath;
     private final String separator;
 
@@ -37,18 +41,20 @@ public class RaspberryAwardsDataReader extends CsvReader<Movie> {
     public RaspberryAwardsDataReader(MovieService movieService,
                                      ProducerCache producerCache,
                                      StudioCache studioCache,
+                                     ResourceLoader resourceLoader,
                                      Environment environment) {
         super();
         this.movieService = movieService;
         this.producerCache = producerCache;
         this.studioCache = studioCache;
+        this.resourceLoader = resourceLoader;
         this.filePath = environment.getProperty("raspberry-awards.data.filepath");
         this.separator = environment.getProperty("raspberry-awards.data.separator");
     }
 
     @Override
-    protected String getFilePath() {
-        return this.filePath;
+    protected InputStream getFile() throws IOException {
+        return this.resourceLoader.getResource(this.filePath).getInputStream();
     }
 
     @Override
