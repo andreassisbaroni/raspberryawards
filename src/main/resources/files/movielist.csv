@@ -195,3 +195,5 @@ year;title;studios;producers;winner
 2017;Fifty Shades Darker;Universal Pictures;Michael De Luca, E. L. James, Dana Brunetti and Marcus Viscidi;
 2017;The Mummy;Universal Pictures;Alex Kurtzman, Chris Morgan, Sean Daniel and Sarah Bradshaw;
 2017;Transformers: The Last Knight;Paramount Pictures;Don Murphy, Tom DeSanto, Lorenzo di Bonaventura and Ian Bryce;
+2017;Should return two wins with 1 year;Test1;Deborah Snyder;yes
+2064;Should return max with 49 years;Test1;Matthew Vaughn;yes

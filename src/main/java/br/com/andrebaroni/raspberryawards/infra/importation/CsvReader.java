@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 
 public abstract class CsvReader<T> implements Serializable {
 
     public void readCsv() throws IOException {
-        try (CSVReader reader = new CSVReader(new InputStreamReader(this.getFile()), this.getSeparator())) {
+        try (CSVReader reader =
+                     new CSVReader(new InputStreamReader(this.getFile(), StandardCharsets.UTF_8), this.getSeparator())) {
             String[] line;
             while ((line = reader.readNext()) != null) {
                 if (this.recordIsValid(line).equals(Boolean.TRUE)) {

@@ -3,6 +3,7 @@ package br.com.andrebaroni.raspberryawards.application.query;
 import br.com.andrebaroni.raspberryawards.domain.entity.Movie;
 import br.com.andrebaroni.raspberryawards.domain.entity.Producer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -27,7 +28,11 @@ public class AwardWinnerQuery implements Serializable {
     public AwardWinnerQuery(Producer producer) {
         this();
         this.setProducer(producer.getName());
-        producer.getMovies().forEach(this::computeMovie);
+
+        if (Objects.nonNull(producer.getMovies()) &&
+                !CollectionUtils.isEmpty(producer.getMovies())) {
+            producer.getMovies().forEach(this::computeMovie);
+        }
     }
 
     public String getProducer() {
@@ -68,19 +73,23 @@ public class AwardWinnerQuery implements Serializable {
     }
 
     public void computeMovie(Movie movie) {
-        if (movie.getWinner()) {
-            if (Objects.isNull(this.getPreviousWin())) {
-                this.setPreviousWin(movie.getYear());
-            } else if (movie.getYear() < this.getPreviousWin()) {
-                this.setPreviousWin(movie.getYear());
-            }
+        if (movie.getWinner().equals(Boolean.TRUE)) {
 
             if (Objects.isNull(this.getFollowingWin())) {
                 this.setFollowingWin(movie.getYear());
             } else if (movie.getYear() > this.getFollowingWin()) {
+                this.setPreviousWin(this.getFollowingWin());
                 this.setFollowingWin(movie.getYear());
             }
 
+            this.calculateInterval();
+        }
+    }
+
+    private void calculateInterval() {
+        if (Objects.isNull(this.getPreviousWin()) || Objects.isNull(this.getFollowingWin())) {
+            this.setInterval(0L);
+        } else {
             this.setInterval(this.getFollowingWin() - this.getPreviousWin());
         }
     }

@@ -22,31 +22,31 @@ public class AwardsControllerTest extends ControllerTest {
     @Test
     public void findAwardsInterval() {
         ResponseEntity entity = super.getTestRestTemplate().getForEntity(this.getUrl(), AwardQuery.class);
-        assertEquals(entity.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, entity.getStatusCode());
 
         AwardQuery awardQuery = (AwardQuery) entity.getBody();
         assertNotNull(awardQuery);
 
         assertNotNull(awardQuery.getMax());
-        assertEquals(awardQuery.getMax().size(), 1);
+        assertEquals(1, awardQuery.getMax().size());
 
         AwardWinnerQuery maxWinner = awardQuery.getMax().stream().findFirst().orElse(null);
         assertNotNull(maxWinner);
-        assertEquals(maxWinner.getProducer(), "Matthew Vaughn");
-        assertEquals(maxWinner.getInterval(), 13L);
-        assertEquals(maxWinner.getPreviousWin(), 2002L);
-        assertEquals(maxWinner.getFollowingWin(), 2015L);
+        assertEquals("Matthew Vaughn", maxWinner.getProducer());
+        assertEquals(49L, maxWinner.getInterval());
+        assertEquals( 2015L, maxWinner.getPreviousWin());
+        assertEquals(2064L, maxWinner.getFollowingWin());
 
         assertNotNull(awardQuery.getMin());
-        assertEquals(awardQuery.getMin().size(), 1);
+        assertEquals(1, awardQuery.getMin().size());
 
 
         AwardWinnerQuery minWinner = awardQuery.getMin().stream().findFirst().orElse(null);
         assertNotNull(minWinner);
-        assertEquals(minWinner.getProducer(), "Joel Silver");
-        assertEquals(minWinner.getInterval(), 1L);
-        assertEquals(minWinner.getPreviousWin(), 1990L);
-        assertEquals(minWinner.getFollowingWin(), 1991L);
+        assertEquals("Joel Silver", minWinner.getProducer());
+        assertEquals(1L, minWinner.getInterval());
+        assertEquals( 1990L, minWinner.getPreviousWin());
+        assertEquals(1991L, minWinner.getFollowingWin());
     }
 
     @Override
